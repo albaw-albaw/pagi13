@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team | PAGI Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+/* TEAM-SPECIFIC STYLES */
+.team-section {
+  border-bottom: var(--rule);
+}
+.team-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 80px 40px;
+}
+
+/* PROFILE CARD */
+.profile-grid {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 80px;
+  align-items: start;
+}
+.profile-left {
+  position: sticky;
+  top: 96px;
+}
+.profile-avatar {
+  width: 100%;
+  aspect-ratio: 3/4;
+  background: var(--navy);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28px;
+  border: var(--rule);
+}
+.avatar-svg { opacity: .18; }
+.avatar-initials {
+  position: absolute;
+  font-family: 'Playfair Display', serif;
+  font-size: 5rem;
+  font-weight: 400;
+  color: rgba(184,224,255,.35);
+  letter-spacing: .04em;
+  user-select: none;
+}
+.profile-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--blue);
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+.profile-title {
+  font-size: .82rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--azure);
+  margin-bottom: 20px;
+}
+.profile-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: var(--rule-lt);
+}
+.pc-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: var(--rule-lt);
+  text-decoration: none;
+  color: var(--blue);
+  font-size: .82rem;
+  font-weight: 300;
+  transition: color .15s;
+}
+.pc-link:hover { color: var(--azure); }
+.pc-icon { font-size: .9rem; opacity: .6; flex-shrink: 0; }
+
+/* BADGES */
+.badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+.badge {
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border: 1px solid var(--border);
+  color: var(--azure);
+  background: var(--pale);
+}
+
+/* PROFILE RIGHT */
+.profile-right {}
+.profile-section-label {
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--azure);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.profile-section-label::before {
+  content: '';
+  display: inline-block;
+  width: 28px;
+  height: 2px;
+  background: var(--azure);
+}
+.profile-bio-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--blue);
+  margin-bottom: 28px;
+}
+.profile-bio-title em { font-style: italic; color: var(--azure); }
+.profile-body {
+  font-size: 1rem;
+  line-height: 1.85;
+  color: #2a4a6b;
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+.profile-body strong {
+  font-weight: 700;
+  color: var(--blue);
+}
+.profile-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+  margin: 40px 0;
+}
+
+/* EDUCATION LIST */
+.edu-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.edu-row {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 20px;
+  padding: 20px 0;
+  border-bottom: var(--rule-lt);
+  transition: background .15s;
+}
+.edu-row:first-child { border-top: var(--rule-lt); }
+.edu-row:hover { background: var(--pale); margin: 0 -16px; padding: 20px 16px; }
+.edu-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--azure);
+  margin-top: 6px;
+  flex-shrink: 0;
+  position: relative;
+}
+.edu-dot::after {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: 5px;
+  width: 2px;
+  height: calc(100% + 28px);
+  background: var(--border);
+}
+.edu-row:last-child .edu-dot::after { display: none; }
+.edu-content {}
+.edu-degree-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--blue);
+  margin-bottom: 3px;
+}
+.edu-institution {
+  font-size: .82rem;
+  color: var(--azure);
+  font-weight: 400;
+  letter-spacing: .02em;
+}
+
+/* AWARDS COMPACT */
+.awards-compact {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 0;
+}
+.ac-item {
+  padding: 20px 24px;
+  border: var(--rule-lt);
+  transition: all .15s;
+  cursor: default;
+}
+.ac-item:hover {
+  border-color: var(--azure);
+  background: var(--pale);
+}
+.ac-icon { font-size: 1.5rem; margin-bottom: 10px; display: block; }
+.ac-title {
+  font-family: 'Playfair Display', serif;
+  font-size: .92rem;
+  font-weight: 400;
+  color: var(--blue);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+.ac-body { font-size: .78rem; color: var(--gray); line-height: 1.55; font-weight: 300; }
+
+/* EXPERTISE TAGS INLINE */
+.inline-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 0;
+}
+.itag {
+  padding: 8px 16px;
+  font-size: .78rem;
+  font-weight: 400;
+  letter-spacing: .03em;
+  color: var(--blue);
+  border: var(--rule-lt);
+  background: #fff;
+  transition: all .15s;
+  cursor: default;
+}
+.itag:hover { background: var(--azure); color: #fff; border-color: var(--azure); }
+
+/* COLLABORATORS STRIP */
+.collab-strip {
+  background: var(--mint);
+  border-bottom: var(--rule);
+  padding: 48px 0;
+}
+.collab-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+.collab-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--blue);
+  margin-bottom: 28px;
+}
+.collab-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+  border: var(--rule-lt);
+}
+.collab-item {
+  padding: 24px 20px;
+  border-right: var(--rule-lt);
+  transition: background .15s;
+  cursor: default;
+}
+.collab-item:last-child { border-right: none; }
+.collab-item:hover { background: var(--pale); }
+.collab-name {
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--blue);
+  margin-bottom: 4px;
+}
+.collab-role {
+  font-size: .75rem;
+  color: var(--gray);
+  font-weight: 300;
+  line-height: 1.4;
+}
+
+/* JOIN STRIP */
+.join-strip {
+  background: var(--navy);
+  border-bottom: var(--rule);
+  padding: 64px 0;
+}
+.join-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+.join-text .eyebrow { color: var(--sky); }
+.join-h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 2.6vw, 2.4rem);
+  font-weight: 400;
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+.join-h2 em { font-style: italic; color: var(--sky); }
+.join-body {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: rgba(184,224,255,.75);
+  font-weight: 300;
+  margin-bottom: 32px;
+}
+.join-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
+.join-quote {
+  border-left: 3px solid var(--azure);
+  padding-left: 28px;
+}
+.join-quote p {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  font-style: italic;
+  line-height: 1.6;
+  color: rgba(255,255,255,.85);
+  margin-bottom: 16px;
+}
+.join-quote cite {
+  font-size: .78rem;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--sky);
+}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .profile-grid { grid-template-columns: 1fr; gap: 48px; }
+  .profile-left { position: static; }
+  .profile-avatar { max-width: 300px; }
+  .awards-compact { grid-template-columns: 1fr; }
+  .collab-grid { grid-template-columns: repeat(2,1fr); }
+  .collab-item:nth-child(2n) { border-right: none; }
+  .collab-item { border-bottom: var(--rule-lt); }
+}
+@media(max-width:768px){
+  .team-inner { padding: 48px 20px; }
+  .collab-inner { padding: 0 20px; }
+  .join-inner { padding: 0 20px; }
+  .collab-grid { grid-template-columns: 1fr; }
+  .collab-item { border-right: none; }
+  .awards-compact { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-top">
+    <a href="index.html" class="nav-logo">PAGI</a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="research.html">Research</a>
+      <a href="advisory.html">Advisory</a>
+      <a href="teaching.html">Teaching</a>
+      <a href="team.html" class="active">Team</a>
+    </nav>
+  </div>
+</header>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-eyebrow">Our Team</div>
+    <h1 class="page-h1">The people behind<br><em>PAGI Initiative</em></h1>
+    <p class="page-desc">A multidisciplinary team of researchers, engineers, and educators united by a shared commitment to advancing high-performance, agile green infrastructure for a sustainable built environment.</p>
+  </div>
+</div>
+
+<!-- PROFILE -->
+<section class="team-section">
+  <div class="team-inner">
+    <div class="profile-grid">
+
+      <!-- LEFT: Avatar + Contact -->
+      <div class="profile-left sr">
+<div class="profile-name">Dr.-Ing. Ali Bawono, PMP</div>
+        <div class="profile-contact">
+          <a href="index.html#contact" class="pc-link"><span class="pc-icon">&#9993;</span> ali.bawono [at] tum-asia.edu.sg</a>
+          <a href="index.html#contact" class="pc-link"><span class="pc-icon">&#9993;</span> aliaryobawono [at] gmail.com</a>
+          <a href="index.html#contact" class="pc-link"><span class="pc-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;display:inline-block"><circle cx="7" cy="7" r="6"/><ellipse cx="7" cy="7" rx="2.8" ry="6"/><line x1="1" y1="7" x2="13" y2="7"/><line x1="1.8" y1="4" x2="12.2" y2="4"/><line x1="1.8" y1="10" x2="12.2" y2="10"/></svg></span> Singapore</a>
+        </div>
+</div>
+
+      <!-- RIGHT: Bio + Education + Awards + Expertise -->
+      <div class="profile-right">
+
+        <!-- BIO -->
+        <div class="profile-section-label sr">Profile</div>
+        <h2 class="profile-bio-title sr">Leading the PAGI Initiative —</h2>
+
+        <p class="profile-body sr">
+          Dr.-Ing. Ali Bawono leads the <strong>Performance and Agile Green Infrastructure (PAGI) Initiative</strong> — a research and innovation platform advancing next-generation sustainable built environments. Based in Singapore, he bridges doctoral-level research with direct infrastructure delivery, combining deep materials science expertise with system-level thinking in sustainable transport and urban infrastructure.
+        </p>
+        <p class="profile-body sr">
+          He has held expert roles with the <strong>World Economic Forum, KFW Development Bank, PricewaterhouseCoopers,</strong> and <strong>Dornier Consulting International</strong>, contributing to major initiatives from policy design and system planning to the construction of varied infrastructure across Singapore, Germany, Indonesia, Malaysia, and Abu Dhabi.
+        </p>
+        <p class="profile-body sr">
+          His research in <strong>Engineered Cementitious Composites (ECC) for Electrified Roadway Electromobility</strong> was awarded Outstanding Research by Springer Nature. His paper on smart and clean electromobility won Best Paper at the Asia Australia Road Conference (AARC). He holds an <strong>international patent</strong> and several Technology Disclosures. A certified PMP, he excels at turning complex technical and policy challenges into actionable, sustainable outcomes.
+        </p>
+
+        <div class="profile-divider sr"></div>
+
+        <!-- EDUCATION -->
+        <div class="profile-section-label sr">Education</div>
+        <div class="edu-timeline">
+          <div class="edu-row sr">
+            <div class="edu-dot"></div>
+            <div class="edu-content">
+              <div class="edu-degree-name">Dr.-Ing. · Civil Engineering</div>
+              <div class="edu-institution">Technische Universität München</div>
+            </div>
+          </div>
+          <div class="edu-row sr">
+            <div class="edu-dot"></div>
+            <div class="edu-content">
+              <div class="edu-degree-name">Ph.D (Joint) · Material Science</div>
+              <div class="edu-institution">Nanyang Technological University</div>
+            </div>
+          </div>
+          <div class="edu-row sr">
+            <div class="edu-dot"></div>
+            <div class="edu-content">
+              <div class="edu-degree-name">M.Sc. · Transportation System</div>
+              <div class="edu-institution">Technische Universität München</div>
+            </div>
+          </div>
+          <div class="edu-row sr">
+            <div class="edu-dot"></div>
+            <div class="edu-content">
+              <div class="edu-degree-name">B.Sc. · Civil Engineering</div>
+              <div class="edu-institution">Institute of Technology Bandung</div>
+            </div>
+          </div>
+          <div class="edu-row sr">
+            <div class="edu-dot"></div>
+            <div class="edu-content">
+              <div class="edu-degree-name">Executive Education · Business Strategy &amp; Financial Performance</div>
+              <div class="edu-institution">INSEAD</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-divider sr"></div>
+
+        <!-- AWARDS -->
+        <div class="profile-section-label sr">Recognition</div>
+        <div class="awards-compact">
+          <div class="ac-item sr">
+            <span class="ac-icon">🏆</span>
+            <div class="ac-title">Outstanding Research — Springer Nature</div>
+            <p class="ac-body">Awarded for research on Engineered Cementitious Composites for Electrified Roadway Electromobility — a globally recognised contribution to sustainable transport infrastructure.</p>
+          </div>
+          <div class="ac-item sr">
+            <span class="ac-icon">🥇</span>
+            <div class="ac-title">Best Paper — Asia Australia Road Conference (AARC)</div>
+            <p class="ac-body">Recognised for seminal work on smart and clean electromobility, advancing next-generation urban transport systems in the Asia-Pacific region.</p>
+          </div>
+          <div class="ac-item sr">
+            <span class="ac-icon">💡</span>
+            <div class="ac-title">International Patent Holder</div>
+            <p class="ac-body">Holds an international patent on the electrified roadway pavement system alongside several Technology Disclosures in advanced cementitious composite applications.</p>
+          </div>
+          <div class="ac-item sr">
+            <span class="ac-icon">🌐</span>
+            <div class="ac-title">Global Expert Roles</div>
+            <p class="ac-body">Expert advisory contributions to the World Economic Forum, KFW Development Bank, PricewaterhouseCoopers, and Dornier Consulting International across policy and infrastructure projects.</p>
+          </div>
+        </div>
+
+        <div class="profile-divider sr"></div>
+
+        <!-- EXPERTISE -->
+        <div class="profile-section-label sr">Areas of Expertise</div>
+        <div class="inline-tags sr">
+          <span class="itag">Pavement Engineering</span>
+          <span class="itag">Electrified Roadways</span>
+          <span class="itag">ECC Materials</span>
+          <span class="itag">Green Infrastructure</span>
+          <span class="itag">Railway Systems</span>
+          <span class="itag">AI / ML Monitoring</span>
+          <span class="itag">Solar PV Integration</span>
+          <span class="itag">Circular Economy</span>
+          <span class="itag">Transit-Oriented Development</span>
+          <span class="itag">Electromobility</span>
+          <span class="itag">Finite Element Analysis</span>
+          <span class="itag">Nature-Based Solutions</span>
+          <span class="itag">Asset Management</span>
+          <span class="itag">Sustainable Transport Policy</span>
+          <span class="itag">Energy Harvesting Infrastructure</span>
+          <span class="itag">Project Management (PMP)</span>
+        </div>
+
+      </div><!-- /profile-right -->
+    </div><!-- /profile-grid -->
+  </div>
+</section>
+
+<!-- STUDENTS CSS -->
+<style>
+/* ── STUDENTS SECTION ── */
+.students-section { border-bottom: var(--rule); background: #fff; }
+.students-inner { max-width: 1280px; margin: 0 auto; padding: 72px 40px; }
+
+.students-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin-top: 40px;
+  border-top: var(--rule-lt);
+  border-left: var(--rule-lt);
+}
+.student-card {
+  border-right: var(--rule-lt);
+  border-bottom: var(--rule-lt);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: background .15s;
+  cursor: default;
+}
+.student-card:hover { background: var(--pale); }
+
+/* Avatar icon */
+.student-card {
+  border-right: var(--rule-lt);
+  border-bottom: var(--rule-lt);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  transition: background .15s;
+  cursor: default;
+}
+.student-card:hover { background: var(--pale); }
+
+/* Avatar icon */
+.student-avatar {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--pale);
+  border: 1.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-bottom: 14px;
+}
+.student-avatar svg { opacity: .55; }
+
+.student-name {
+  font-family: 'Playfair Display', serif;
+  font-size: .98rem;
+  font-weight: 700;
+  color: var(--blue);
+  line-height: 1.3;
+  margin-bottom: 14px;
+}
+.student-edu {
+  font-size: .78rem;
+  color: var(--gray);
+  font-weight: 300;
+  line-height: 1.55;
+  margin-bottom: 14px;
+}
+.student-interests {
+  display: block;
+  margin-top: 0;
+  margin-bottom: 14px;
+}
+.interest-label {
+  display: block;
+  font-size: .62rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--azure);
+  margin-bottom: 3px;
+  margin-top: 14px;
+}
+.interest-label:first-child { margin-top: 0; }
+.sint-text {
+  font-size: .8rem;
+  color: var(--gray);
+  font-weight: 300;
+  line-height: 1.6;
+  font-style: normal;
+  margin: 0;
+}
+.pg-label {
+  display: block;
+  font-size: .62rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--azure);
+  margin-bottom: 3px;
+  margin-top: 14px;
+}
+.student-current {
+  font-size: .8rem;
+  color: var(--gray);
+  font-weight: 300;
+  line-height: 1.6;
+  display: block;
+}
+.current-dot { display: none; }
+
+@media(max-width:1024px){
+  .students-grid { grid-template-columns: repeat(3,1fr); }
+}
+@media(max-width:768px){
+  .students-grid { grid-template-columns: repeat(2,1fr); }
+  .students-inner { padding: 48px 20px; }
+}
+@media(max-width:480px){
+  .students-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<!-- STUDENTS SECTION -->
+<section class="students-section">
+  <div class="students-inner">
+    <div class="s-head sr" style="padding-top:0; border-bottom:var(--rule-lt); padding-bottom:0; margin-bottom:0">
+      <div>
+        <div class="eyebrow">People</div>
+        <h2 class="s-title">Current &amp; Former <em>Researchers</em></h2>
+      </div>
+    </div>
+    <div class="students-grid">
+      <div class="student-card sr">
+        <div class="student-avatar">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="14" cy="10" r="5" stroke="#00589a" stroke-width="1.4" fill="none"/>
+            <path d="M4 26c0-5.523 4.477-10 10-10s10 4.477 10 10" stroke="#00589a" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="student-name">Alhaz Fiddin</div>
+        <span class="interest-label">Education</span><div class="student-edu">Bachelor Degree in Civil Engineering, Syiah Kuala University<br>Master of Science, Transportation System, Technical University of Munich</div>
+        <div class="student-interests"><span class="interest-label">Interest</span><p class="sint-text">Pavement, Material Construction</p></div>
+        <div class="student-current"><span class="pg-label">Postgraduate Work</span>The Ministry of Public Works and Housing, Indonesia</div>
+      </div>
+      <div class="student-card sr">
+        <div class="student-avatar">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="14" cy="10" r="5" stroke="#00589a" stroke-width="1.4" fill="none"/>
+            <path d="M4 26c0-5.523 4.477-10 10-10s10 4.477 10 10" stroke="#00589a" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="student-name">Christian Von Schumann</div>
+        <span class="interest-label">Education</span><div class="student-edu">Bachelor of Science, Environmental Engineering, Technische Universit&auml;t M&uuml;nchen<br>Master of Science, Civil Engineering, Technical University of Munich</div>
+        <div class="student-interests"><span class="interest-label">Interest</span><p class="sint-text">Pavement, Railway, Construction, Building Information Modelling</p></div>
+        <div class="student-current"><span class="pg-label">Postgraduate Work</span>Stadtwerke M&uuml;nchen GmbH, Germany</div>
+      </div>
+      <div class="student-card sr">
+        <div class="student-avatar">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="14" cy="10" r="5" stroke="#00589a" stroke-width="1.4" fill="none"/>
+            <path d="M4 26c0-5.523 4.477-10 10-10s10 4.477 10 10" stroke="#00589a" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="student-name">Tan Zhi Hong</div>
+        <span class="interest-label">Education</span><div class="student-edu">B.Sc in Civil Engineering, Nanyang Technological University</div>
+        <div class="student-interests"><span class="interest-label">Interest</span><p class="sint-text">Material Construction</p></div>
+        <div class="student-current"><span class="pg-label">Postgraduate Work</span>HTX (Home Team Science &amp; Technology Agency), Singapore</div>
+      </div>
+      <div class="student-card sr">
+        <div class="student-avatar">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="14" cy="10" r="5" stroke="#00589a" stroke-width="1.4" fill="none"/>
+            <path d="M4 26c0-5.523 4.477-10 10-10s10 4.477 10 10" stroke="#00589a" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="student-name">Emre Caliskan</div>
+        <span class="interest-label">Education</span><div class="student-edu">Master of Science, Civil Engineering, Technical University of Munich</div>
+        <div class="student-interests"><span class="interest-label">Interest</span><p class="sint-text">Roadway, Material Construction</p></div>
+        <div class="student-current"><span class="pg-label">Postgraduate Work</span>Germany</div>
+      </div><div class="student-card sr">
+        <div class="student-avatar">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="14" cy="10" r="5" stroke="#00589a" stroke-width="1.4" fill="none"/>
+            <path d="M4 26c0-5.523 4.477-10 10-10s10 4.477 10 10" stroke="#00589a" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="student-name">Thangaraj Janaki Raman</div>
+        <span class="interest-label">Education</span><div class="student-edu">Master of Science, Civil Engineering, Technical University of Munich</div>
+        <div class="student-interests"><span class="interest-label">Interest</span><p class="sint-text">Noise, Pavement, Railway, Material Construction</p></div>
+        <div class="student-current"><span class="pg-label">Postgraduate Work</span>Germany</div>
+      </div><div class="student-card sr">
+        <div class="student-avatar">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="14" cy="10" r="5" stroke="#00589a" stroke-width="1.4" fill="none"/>
+            <path d="M4 26c0-5.523 4.477-10 10-10s10 4.477 10 10" stroke="#00589a" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="student-name">Ralf Fuchs</div>
+        <span class="interest-label">Education</span><div class="student-edu">Bachelor of Science, Construction Engineering, Technical University of Munich<br>Master of Science, Construction Engineering, Technical University of Munich</div>
+        <div class="student-interests"><span class="interest-label">Interest</span><p class="sint-text">Energy Harvesting Infrastructure, Railway</p></div>
+        <div class="student-current"><span class="pg-label">Postgraduate Work</span>BAYERNOIL, Germany</div>
+      </div>
+      <div class="student-card sr">
+        <div class="student-avatar">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="14" cy="10" r="5" stroke="#00589a" stroke-width="1.4" fill="none"/>
+            <path d="M4 26c0-5.523 4.477-10 10-10s10 4.477 10 10" stroke="#00589a" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="student-name">Chan Xiang Yan</div>
+        <span class="interest-label">Education</span><div class="student-edu">B.Sc in Civil Engineering, Nanyang Technological University</div>
+        <div class="student-interests"><span class="interest-label">Interest</span><p class="sint-text">Railway, Pavement</p></div>
+        <div class="student-current"><span class="pg-label">Postgraduate Work</span>Land Transport Authority, Singapore</div>
+      </div>
+      <div class="student-card sr">
+        <div class="student-avatar">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="14" cy="10" r="5" stroke="#00589a" stroke-width="1.4" fill="none"/>
+            <path d="M4 26c0-5.523 4.477-10 10-10s10 4.477 10 10" stroke="#00589a" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="student-name">Zhongwen Wang</div>
+        <span class="interest-label">Education</span><div class="student-edu">Master of Science, Rail, Transport and Logistics, Technical University of Munich</div>
+        <div class="student-interests"><span class="interest-label">Interest</span><p class="sint-text">Roadway, Pavement</p></div>
+        <div class="student-current"><span class="pg-label">Postgraduate Work</span>China</div>
+      </div>
+      <div class="student-card sr">
+        <div class="student-avatar">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="14" cy="10" r="5" stroke="#00589a" stroke-width="1.4" fill="none"/>
+            <path d="M4 26c0-5.523 4.477-10 10-10s10 4.477 10 10" stroke="#00589a" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="student-name">Onur Gorur</div>
+        <span class="interest-label">Education</span><div class="student-edu">Master of Science, Civil Engineering, Technical University of Munich</div>
+        <div class="student-interests"><span class="interest-label">Interest</span><p class="sint-text">Pavement, EV</p></div>
+        <div class="student-current"><span class="pg-label">Postgraduate Work</span>ARGE Tunnel Ostbahnhof, Germany</div>
+      </div>
+      <div class="student-card sr">
+        <div class="student-avatar">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="14" cy="10" r="5" stroke="#00589a" stroke-width="1.4" fill="none"/>
+            <path d="M4 26c0-5.523 4.477-10 10-10s10 4.477 10 10" stroke="#00589a" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="student-name">Redian Alkindi Mochtar</div>
+        <span class="interest-label">Education</span><div class="student-edu">Bachelor Degree, Mechanical Engineering, University of Indonesia<br>Master of Science, Rail, Transport and Logistics, Technical University of Munich</div>
+        <div class="student-interests"><span class="interest-label">Interest</span><p class="sint-text">Pavement, AI, Logistics, Automotive, Transportation</p></div>
+        <div class="student-current"><span class="pg-label">Postgraduate Work</span>PT. Gapura Angkasa, Indonesia</div>
+      </div>
+      <div class="student-card sr">
+        <div class="student-avatar">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="14" cy="10" r="5" stroke="#00589a" stroke-width="1.4" fill="none"/>
+            <path d="M4 26c0-5.523 4.477-10 10-10s10 4.477 10 10" stroke="#00589a" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="student-name">Alan Christy Joshy</div>
+        <span class="interest-label">Education</span><div class="student-edu">Bachelor of Technology, Civil Engineering, Mahatma Gandhi University<br>Master of Science, Rail, Transport and Logistics, Technical University of Munich</div>
+        <div class="student-interests"><span class="interest-label">Interest</span><p class="sint-text">Pavement, AI, Railway</p></div>
+        <div class="student-current"><span class="pg-label">Postgraduate Work</span>Daewoo-Yongnam Joint Venture (DYJV), Singapore</div>
+      </div>
+      <div class="student-card sr">
+        <div class="student-avatar">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="14" cy="10" r="5" stroke="#00589a" stroke-width="1.4" fill="none"/>
+            <path d="M4 26c0-5.523 4.477-10 10-10s10 4.477 10 10" stroke="#00589a" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="student-name">Zelong Tian</div>
+        <span class="interest-label">Education</span><div class="student-edu">Master of Science, Rail, Transport and Logistics, Technical University of Munich</div>
+        <div class="student-interests"><span class="interest-label">Interest</span><p class="sint-text">Pavement, Machine Learning, AI</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="join-strip">
+  <div class="join-inner">
+    <div class="join-text sr">
+      <div class="eyebrow">Join the Initiative</div>
+      <h2 class="join-h2">Collaborate with <em>PAGI</em></h2>
+      <p class="join-body">We welcome researchers, engineers, policymakers, and industry leaders who share our commitment to advancing high-performance, sustainable infrastructure. Whether you are a prospective research partner, academic collaborator, or industry sponsor — we would love to hear from you.</p>
+      <div class="join-ctas">
+        <a href="index.html#contact" class="btn-p">Get in Touch →</a>
+        <a href="research.html" class="btn-o">View Research</a>
+      </div>
+    </div>
+    <div class="join-quote sr">
+      <p>"Sustainability, Now or Too Late."</p>
+      <cite>— PAGI Initiative</cite>
+    </div>
+    </div>
+</section>
+
+<footer>
+  <div class="fl">PAGI Initiative · Dr.-Ing. Ali Bawono, PMP</div>
+  <div class="fr">Singapore · Performance &amp; Agile Green Infrastructure · v1.6</div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+(function(){
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var g=e.target.parentElement.querySelectorAll('.sr:not(.in)');
+        var d=0;
+        g.forEach(function(s){
+          if(s.getBoundingClientRect().top<window.innerHeight+60){
+            setTimeout(function(){s.classList.add('in');},d);
+            d+=65;
+          }
+        });
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  },{threshold:0.06,rootMargin:'0px 0px -24px 0px'});
+  document.querySelectorAll('.sr').forEach(function(el){io.observe(el);});
+})();
+</script>
+</body>
+</html>

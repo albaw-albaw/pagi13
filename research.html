@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research &amp; Development | PAGI Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+/* ── RESEARCH PAGE — original 3-col card grid ── */
+.cards { display: grid; grid-template-columns: repeat(3,1fr); }
+.card { border-right: var(--rule-lt); border-bottom: var(--rule-lt); transition: background .2s; cursor: default; }
+.card:nth-child(3n) { border-right: none; }
+.card:hover { background: var(--pale); }
+
+/* Image panel — flush with card body, no separator line */
+.card-img {
+  width: calc(100% - 56px);
+  margin: 0 28px 20px 28px;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+}
+.card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  transition: transform .35s ease;
+  filter: drop-shadow(0 2px 8px rgba(0,61,107,.08));
+}
+.card:hover .card-img img {
+  transform: scale(1.03);
+  filter: drop-shadow(0 4px 14px rgba(0,61,107,.15));
+}
+.ci-lbl { display: none; }
+
+/* Card body — identical to original */
+.card-body { padding: 24px 28px 28px; }
+.card-body:first-of-type { padding-bottom: 12px; }
+.c-tag {
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  color: var(--azure);
+}
+.c-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  line-height: 1.35;
+  color: var(--blue);
+  margin-bottom: 12px;
+}
+.c-desc {
+  font-size: .84rem;
+  line-height: 1.7;
+  color: var(--gray);
+  font-weight: 300;
+  margin-bottom: 14px;
+}
+
+/* Keywords */
+.c-kw {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 14px;
+}
+.kw {
+  font-size: .63rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  background: var(--pale);
+  border: 1px solid var(--border);
+  color: var(--blue);
+}
+
+/* Partners */
+.c-meta {
+  font-size: .72rem;
+  font-weight: 400;
+  color: var(--lgray);
+  letter-spacing: .04em;
+  padding-top: 12px;
+  border-top: var(--rule-lt);
+  margin-bottom: 14px;
+}
+.c-meta strong { color: var(--blue); font-weight: 700; }
+
+/* Publications section */
+.pub-section { border-bottom: var(--rule); background: var(--pale); }
+.pub-inner { max-width: 1280px; margin: 0 auto; padding: 64px 40px; }
+.pub-intro {
+  font-size: .9rem; color: var(--gray); font-weight: 300;
+  line-height: 1.7; margin-bottom: 40px; max-width: 700px;
+}
+.pub-list {
+  display: flex; flex-direction: column; gap: 0;
+  max-width: 960px;
+}
+.pub-item {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 0 20px;
+  padding: 16px 0;
+  border-bottom: var(--rule-lt);
+  transition: background .15s;
+}
+.pub-item:first-child { border-top: var(--rule-lt); }
+.pub-item:hover { background: white; margin: 0 -20px; padding: 16px 20px; }
+.pub-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem; font-weight: 400;
+  color: var(--border); line-height: 1.6;
+  text-align: right; padding-right: 4px;
+}
+.pub-ref {
+  font-size: .82rem; line-height: 1.7;
+  color: #2a4a6b; font-weight: 300;
+}
+.pub-ref em { font-style: italic; }
+.pub-ref strong { font-weight: 700; color: var(--blue); }
+.pub-type-label {
+  font-size: .68rem; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--azure); margin: 32px 0 14px;
+  display: flex; align-items: center; gap: 10px;
+}
+.pub-type-label::before {
+  content: ''; display: inline-block;
+  width: 24px; height: 2px; background: var(--azure);
+}
+
+/* Stats bar */
+.stats-bar { border-bottom: var(--rule); background: white; }
+.stats-inner {
+  max-width: 1280px; margin: 0 auto; padding: 0 40px;
+  display: grid; grid-template-columns: repeat(4,1fr);
+}
+.sitem {
+  padding: 32px 28px;
+  border-right: var(--rule-lt);
+  transition: background .15s;
+  cursor: default;
+}
+.sitem:last-child { border-right: none; }
+.sitem:hover { background: var(--pale); }
+.snum {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.6rem; font-weight: 400;
+  color: var(--azure); line-height: 1; margin-bottom: 5px;
+}
+.snum sup { font-size: 1.1rem; }
+.sdesc { font-size: .72rem; color: var(--gray); font-weight: 300; line-height: 1.4; }
+
+/* SDG bar */
+.sdg-bar { background: var(--pale); border-bottom: var(--rule); padding: 18px 0; }
+.sdg-bar-inner {
+  max-width: 1280px; margin: 0 auto; padding: 0 40px;
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+}
+.sdg-lbl { font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--azure); }
+.sdg-pill { font-size: .7rem; font-weight: 700; padding: 4px 12px; color: white; }
+
+@media(max-width:1024px){
+  .cards { grid-template-columns: 1fr 1fr; }
+  .card:nth-child(3n) { border-right: var(--rule-lt); }
+  .card:nth-child(2n) { border-right: none; }
+  .stats-inner { grid-template-columns: 1fr 1fr; }
+  .sitem:nth-child(2n) { border-right: none; }
+  .sitem { border-bottom: var(--rule-lt); }
+}
+@media(max-width:768px){
+  .cards { grid-template-columns: 1fr; }
+  .card:nth-child(n) { border-right: none; }
+  .stats-inner, .sdg-bar-inner { padding: 0 20px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-top">
+    <a href="index.html" class="nav-logo">PAGI</a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="research.html" class="active">Research</a>
+      <a href="advisory.html">Advisory</a>
+      <a href="teaching.html">Teaching</a>
+      <a href="team.html">Team</a>
+    </nav>
+  </div>
+</header>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-eyebrow">Research &amp; Development</div>
+    <h1 class="page-h1">Innovation at the frontier of<br><em>sustainable infrastructure</em></h1>
+    <p class="page-desc">Pioneering next-generation green infrastructure and sustainable transport through rigorous system thinking and scientific inquiry — addressing three levels: System &amp; Policy, Innovation, and Technical Solution.</p>
+  </div>
+</div>
+
+<!-- SDG BAR -->
+<div class="sdg-bar">
+  <div class="sdg-bar-inner">
+    <span class="sdg-lbl">SDG Alignment</span>
+    <span class="sdg-pill" style="background:#f4a225">7 Affordable &amp; Clean Energy</span>
+    <span class="sdg-pill" style="background:#2098c5">9 Industry, Innovation &amp; Infrastructure</span>
+    <span class="sdg-pill" style="background:#f4761a">11 Sustainable Cities &amp; Communities</span>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="sitem"><div class="snum">15<sup>+</sup></div><div class="sdesc">Research topics across pavement, railway, transport &amp; energy</div></div>
+    <div class="sitem"><div class="snum">10<sup>+</sup></div><div class="sdesc">University research partners across Asia &amp; Europe</div></div>
+    <div class="sitem"><div class="snum">3<sup>+</sup></div><div class="sdesc">International Patent + Technology Disclosures</div></div>
+    <div class="sitem"><div class="snum">5<sup>+</sup></div><div class="sdesc">Countries of R&amp;D and applied project footprint</div></div>
+  </div>
+</div>
+
+<!-- RESEARCH CARDS -->
+<section class="section">
+  <div class="s-inner">
+    <div class="s-head sr">
+      <div><h2 class="s-title">R&amp;D Portfolio <em>(selected)</em></h2></div>
+      <p class="s-sub">Spanning pavement engineering, renewable energy integration, AI monitoring, and electromobility.</p>
+    </div>
+    <div class="cards">
+
+      <!-- 01 Electrified Roadway WPT -->
+      <div class="card sr">
+        <div class="card-body">
+          <h3 class="c-title">Study of Electrified Roadway Design with Wireless Power Transfer for Electric Vehicles</h3>
+          <p class="c-desc">Precast Ultra-thin Whitetopping (PUTW) using ECC was developed for rapid retrofitting of existing road infrastructure into electrified roadways, enabling wireless inductive EV charging without steel reinforcement interference.</p>
+        </div>
+        <div class="card-img">
+          <img src="rd8.png" alt="Concept of Electrified Roadway Design with Wireless Power Transfer for EV">
+          <span class="ci-lbl">Concept of Electrified Roadway Design with WPT for EV</span>
+        </div>
+        <div class="card-body" style="padding-top:8px">
+          <div class="c-meta"><strong>Research Partner(s):</strong> Technical University of Munich &nbsp;·&nbsp; Nanyang Technological University</div>
+          <div class="c-kw">
+            <span class="kw">Electrified Roadway</span><span class="kw">Wireless Power Transfer</span><span class="kw">Electric Vehicle</span><span class="kw">ECC</span><span class="kw">Precast</span><span class="kw">Electromobility</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 02 ECC Structural & Functional -->
+      <div class="card sr">
+        <div class="card-body">
+          <h3 class="c-title">Structural &amp; Functional Performance of Engineered Cementitious Composite (ECC) Pavement</h3>
+          <p class="c-desc">Corundum-integrated ECC (ECC-Cor) achieves BPN &gt;70 and excellent durability over 100,000 load cycles. Supplementary cementitious materials (fly ash, slag) advance sustainability. Grooved surface treatment further improves skid resistance to BPN &gt;90.</p>
+        </div>
+        <div class="card-img">
+          <img src="rd9.png" alt="Structural and Functional Performance of Improved ECC">
+          <span class="ci-lbl">Structural (left) and Functional Performance BPN (right) of Improved ECC</span>
+        </div>
+        <div class="card-body" style="padding-top:8px">
+          <div class="c-meta"><strong>Research Partner(s):</strong> Technical University of Munich &nbsp;·&nbsp; Nanyang Technological University</div>
+          <div class="c-kw">
+            <span class="kw">Pavement</span><span class="kw">Fly Ash</span><span class="kw">Slag</span><span class="kw">SCM</span><span class="kw">Sustainability</span><span class="kw">Structural Performance</span><span class="kw">Functional Performance</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 03 Asphalt 3D FEM -->
+      <div class="card sr">
+        <div class="card-body">
+          <h3 class="c-title">Asphalt Pavement Analysis with 3D FEM Model Using Actual Tire Pavement Contact Stresses</h3>
+          <p class="c-desc">Using a Tekscan I-Scan pressure mapping system with MATLAB and ANSYS, actual tire-pavement contact stresses were captured. Results show non-uniform stress distributions significantly influenced by load and tire inflation pressure, challenging conventional circular contact assumptions.</p>
+        </div>
+        <div class="card-img">
+          <img src="rd10.png" alt="Shear stress analysis — uniform vs non-uniform contact area">
+          <span class="ci-lbl">Shear stress: uniform (a–c) vs non-uniform contact (d–f)</span>
+        </div>
+        <div class="card-body" style="padding-top:8px">
+          <div class="c-meta"><strong>Research Partner(s):</strong> Technical University of Munich</div>
+          <div class="c-kw">
+            <span class="kw">Pavement</span><span class="kw">Overloading</span><span class="kw">Finite Element</span><span class="kw">Structural Performance</span><span class="kw">Contact Stress</span><span class="kw">ANSYS</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 04 Solar PV Railway -->
+      <div class="card sr">
+        <div class="card-body">
+          <h3 class="c-title">Feasibility Study of Energy Harvesting by Solar PV for Ballasted &amp; Ballastless Railway Tracks</h3>
+          <p class="c-desc">A PV system adapted to Singapore's MRT network leverages 200,000 m² of track area, achieving at least 18 MWp capacity producing 22.56 GWh/year — saving over 261,600 tonnes of CO₂ per year, supporting Singapore's 2050 net-zero target.</p>
+        </div>
+        <div class="card-img">
+          <img src="rd11.png" alt="Concept Design Solar PV Utilization for Railway Tracks">
+          <span class="ci-lbl">Concept Design Solar PV Utilization for Railway Tracks</span>
+        </div>
+        <div class="card-body" style="padding-top:8px">
+          <div class="c-meta"><strong>Research Partner(s):</strong> Technical University of Munich &nbsp;·&nbsp; NUS SERIS</div>
+          <div class="c-kw">
+            <span class="kw">Renewable Energy</span><span class="kw">CO₂</span><span class="kw">Photovoltaics</span><span class="kw">MRT</span><span class="kw">Ballasted Track</span><span class="kw">Energy Harvesting</span><span class="kw">Net Zero</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 05 PVNB -->
+      <div class="card sr">
+        <div class="card-body">
+          <h3 class="c-title">Study of Photovoltaics Noise Barrier (PVNB) Implementation on Railway Tracks</h3>
+          <p class="c-desc">Integrating PV panels into railway noise barriers addresses both Singapore's land-scarcity and rail noise concerns simultaneously. A T-shaped barrier design with full PV cladding generates ~157.6 GWh annually, equivalent to ~0.58% of national electricity demand while advancing noise reduction goals.</p>
+        </div>
+        <div class="card-img">
+          <img src="rd12.png" alt="Noise assessment for PVNB concept">
+          <span class="ci-lbl">Noise assessment — PVNB concept along Singapore rail corridors</span>
+        </div>
+        <div class="card-body" style="padding-top:8px">
+          <div class="c-meta"><strong>Research Partner(s):</strong> Technical University of Munich &nbsp;·&nbsp; NUS SERIS</div>
+          <div class="c-kw">
+            <span class="kw">Photovoltaics</span><span class="kw">Noise Barrier</span><span class="kw">PVNB</span><span class="kw">MRT</span><span class="kw">Railway</span><span class="kw">CO₂</span><span class="kw">Renewable Energy</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 06 E-Forklift Electrified Aisle -->
+      <div class="card sr">
+        <div class="card-body">
+          <h3 class="c-title">Electrified Aisle Concept for E-Forklift in Warehouse Operation Optimisation</h3>
+          <p class="c-desc">An ECC floor embedded with WPT modules enables continuous e-forklift operation, eliminating battery downtime. 3D FEM confirms ECC slabs can be 31% thinner than concrete. Lifecycle analysis shows +9.1% material handling capacity at nearly half the cost with significant CO₂ reductions.</p>
+        </div>
+        <div class="card-img">
+          <img src="rd1.png" alt="Concept Design Electrified Aisle in Warehouses">
+          <span class="ci-lbl">Concept Design Electrified Aisle in Warehouses</span>
+        </div>
+        <div class="card-body" style="padding-top:8px">
+          <div class="c-meta"><strong>Research Partner(s):</strong> Technical University of Munich</div>
+          <div class="c-kw">
+            <span class="kw">Electrified Roadway</span><span class="kw">EV</span><span class="kw">CO₂</span><span class="kw">FEM</span><span class="kw">Wireless Power</span><span class="kw">E-Forklift</span><span class="kw">Logistics</span><span class="kw">WPT</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 07 3D FEM Skid Resistance -->
+      <div class="card sr">
+        <div class="card-body">
+          <h3 class="c-title">Numerical Modelling 3D FEM Dynamic Simulation — Skid Resistance Pavement Performance</h3>
+          <p class="c-desc">3D FEM model development for analyzing and evaluating texturing methods to improve skid resistance for ECC pavement. The model was validated against laboratory British Pendulum Number (BPN) results with differences below 5%, confirming a highly accurate predictive model.</p>
+        </div>
+        <div class="card-img">
+          <img src="rd2.png" alt="3D FEM Analysis for BPT Test on grooved pavement">
+          <span class="ci-lbl">3D FEM Analysis for BPT Test on grooved pavement</span>
+        </div>
+        <div class="card-body" style="padding-top:8px">
+          <div class="c-meta"><strong>Research Partner(s):</strong> Technical University of Munich</div>
+          <div class="c-kw">
+            <span class="kw">Dynamics Model</span><span class="kw">Skid Resistance</span><span class="kw">FEM</span><span class="kw">BPN</span><span class="kw">ECC</span><span class="kw">Surface Texture</span><span class="kw">ANSYS</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 08 CFD Surface Drainage -->
+      <div class="card sr">
+        <div class="card-body">
+          <h3 class="c-title">Computational Fluid Dynamics (CFD) 3D Model on Surface Drainage Pavement Performance</h3>
+          <p class="c-desc">ANSYS Fluent model simulating rainfall-loading on Singapore highways to optimize pavement surface geometry for drainage. Validated within 5.6% of laboratory results and 3.4% of analytical equations — supporting pavement surface property optimization.</p>
+        </div>
+        <div class="card-img">
+          <img src="rd3.png" alt="3D CFD Analysis on surface drainage performance">
+          <span class="ci-lbl">3D CFD Analysis on surface drainage performance</span>
+        </div>
+        <div class="card-body" style="padding-top:8px">
+          <div class="c-meta"><strong>Research Partner(s):</strong> Technical University of Munich</div>
+          <div class="c-kw">
+            <span class="kw">Fluid Dynamics</span><span class="kw">Surface Drainage</span><span class="kw">CFD</span><span class="kw">ANSYS Fluent</span><span class="kw">Water Film Thickness</span><span class="kw">Pavement</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 09 Photocatalysis Tunnel -->
+      <div class="card sr">
+        <div class="card-body">
+          <h3 class="c-title">Self-Cleaning Photocatalysis Properties for Concrete-Based Pavement in Tunnels</h3>
+          <p class="c-desc">Using carbon-modified TiO₂ (K7000) and white fine aggregates, ECC for tunnel pavement achieves compressive strength &gt;50 MPa, BPN ~80, and lightness value of 90. The material recovers 90% of its reflectance after 4 hours of visible light — enabling self-cleaning and air quality improvement.</p>
+        </div>
+        <div class="card-img">
+          <img src="rd4.png" alt="Absorption Spectra — TiO2 photocatalysis">
+          <span class="ci-lbl">Absorption Spectra — TiO₂ photocatalytic materials for ECC tunnel pavement</span>
+        </div>
+        <div class="card-body" style="padding-top:8px">
+          <div class="c-meta"><strong>Research Partner(s):</strong> Technical University of Munich &nbsp;·&nbsp; Nanyang Technological University</div>
+          <div class="c-kw">
+            <span class="kw">Photocatalytic</span><span class="kw">Self-Cleaning</span><span class="kw">TiO₂</span><span class="kw">Concrete</span><span class="kw">Pavement</span><span class="kw">Tunnel</span><span class="kw">ECC</span><span class="kw">Carbon</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10 AI Pothole -->
+      <div class="card sr">
+        <div class="card-body">
+          <h3 class="c-title">Pavement Pothole Distress Monitoring by Using Artificial Intelligence (AI)</h3>
+          <p class="c-desc">Machine learning object detection mechanisms detect potholes and collect detailed distress information, enabling reliable road maintenance planning. Early detection allows road operators to allocate optimal technical solutions and budget for maintenance and rehabilitation before deterioration escalates.</p>
+        </div>
+        <div class="card-img">
+          <img src="rd5.png" alt="Visual object detection on pothole in road pavement">
+          <span class="ci-lbl">Visual object detection on pothole in road pavement</span>
+        </div>
+        <div class="card-body" style="padding-top:8px">
+          <div class="c-meta"><strong>Research Partner(s):</strong> Technical University of Munich</div>
+          <div class="c-kw">
+            <span class="kw">Pavement Preservation</span><span class="kw">AI</span><span class="kw">Pothole</span><span class="kw">Pavement Condition Index</span><span class="kw">Machine Learning</span><span class="kw">Object Detection</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 11 AI Crack Detection -->
+      <div class="card sr">
+        <div class="card-body">
+          <h3 class="c-title">Artificial Intelligence (AI) Based Monitoring &amp; Analysis on Highway Pavement Cracks</h3>
+          <p class="c-desc">ML model trained on 7,000+ images identifies longitudinal, transversal, and alligator cracks, measures them, and assesses associated risk. The model achieves mAP50 of 0.863 — enabling automated Pavement Condition Index quantification and informed preservation decision-making.</p>
+        </div>
+        <div class="card-img">
+          <img src="rd6.png" alt="AI to identify and analyze cracks on highway pavement">
+          <span class="ci-lbl">AI to identify and analyze cracks on highway pavement</span>
+        </div>
+        <div class="card-body" style="padding-top:8px">
+          <div class="c-meta"><strong>Research Partner(s):</strong> Technical University of Munich &nbsp;·&nbsp; IIUM Malaysia</div>
+          <div class="c-kw">
+            <span class="kw">Pavement Preservation</span><span class="kw">AI</span><span class="kw">Crack Detection</span><span class="kw">Pavement Condition Index</span><span class="kw">Machine Learning</span><span class="kw">mAP50</span><span class="kw">Highway</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 12 Digital Pavement Intelligence -->
+      <div class="card sr">
+        <div class="card-body">
+          <h3 class="c-title">Digital Pavement Intelligence — Optimization of Pavement Preservation Management</h3>
+          <p class="c-desc">A scalable AIoT-driven system delivers &gt;85% accuracy in road condition assessment at 30–60 km/h. IoT sensors, data analytics, and ML transform pavement preservation into predictive management of the Pavement Condition Index (PCI), forecasting deterioration and identifying optimal intervention timing.</p>
+        </div>
+        <div class="card-img">
+          <img src="rd7.png" alt="Illustration Process of Pavement Monitoring, Assessment and Preservation Management">
+          <span class="ci-lbl">Pavement Monitoring, Quality Assessment &amp; Preservation Management</span>
+        </div>
+        <div class="card-body" style="padding-top:8px">
+          <div class="c-meta"><strong>Research Partner(s):</strong> Technical University of Munich</div>
+          <div class="c-kw">
+            <span class="kw">Pavement Preservation</span><span class="kw">AIoT</span><span class="kw">Pavement Condition Index</span><span class="kw">IoT</span><span class="kw">Machine Learning</span><span class="kw">Asset Management</span><span class="kw">Predictive Analytics</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section class="pub-section">
+  <div class="pub-inner">
+    <div class="s-head sr" style="padding-top:0; margin-bottom:32px">
+      <div>
+        <h2 class="s-title">Publications <em>(selected)</em></h2>
+      </div>
+      <p class="s-sub">26 publications &nbsp;·&nbsp; Citations: 182 &nbsp;·&nbsp; h-index: 7 &nbsp;·&nbsp; i10-index: 6</p>
+    </div>
+
+    <div class="pub-list">
+
+      <!-- 2024 -->
+
+      <div class="pub-item sr">
+        <div class="pub-num">1</div>
+        <div class="pub-ref">Sophian, A., Zaki, H. F. M., <strong>Bawono, A. A.</strong>, Embong, A. H., &amp; Ashraf, A. (2024). Assessing the performance of YOLOv5, YOLOv6, and YOLOv7 in road defect detection and classification: a comparative study. <em>Bulletin of Electrical Engineering and Informatics, 13</em>(1), 350–360.</div>
+      </div>
+
+      <div class="pub-item sr">
+        <div class="pub-num">2</div>
+        <div class="pub-ref">Ashraf, A., Sophian, A., &amp; <strong>Bawono, A. A.</strong> (2024). Crack detection, classification, and segmentation on road pavement material using multi-scale feature aggregation and transformer-based attention mechanisms. <em>Construction Materials, 4</em>(4), 655–675.</div>
+      </div>
+
+      <div class="pub-item sr">
+        <div class="pub-num">3</div>
+        <div class="pub-ref">NguyenDinh, N., Liu, Y., Qiu, J., <strong>Bawono, A. A.</strong>, He, S., Lechner, B., &amp; Yang, E.-H. (2024). Strain-hardening cementitious composites ultra-thin whitetopping (SHCC-PUTW) for rapid asphalt pavement rehabilitation. <em>Construction and Building Materials, 412</em>, 134252.</div>
+      </div>
+
+      <div class="pub-item sr">
+        <div class="pub-num">4</div>
+        <div class="pub-ref">Ashraf, A., Sophian, A., Shafie, A. A., Gunawan, T. S., Ismail, N. N., &amp; <strong>Bawono, A. A.</strong> (2024). RCD-IIUM: A comprehensive Malaysian road crack dataset for infrastructure analysis. <em>Proceedings of the 2024 9th International Conference on Mechatronics Engineering (ICOM)</em>, 200–206.</div>
+      </div>
+
+      <div class="pub-item sr">
+        <div class="pub-num">5</div>
+        <div class="pub-ref">Fuchs, R., <strong>Bawono, A. A.</strong>, Lechner, B., &amp; Rodríguez-Gallegos, C. D. (2024). Solar photovoltaic potential for ballastless and ballasted railway tracks: A Singapore case study. <em>Available at SSRN 4904272.</em></div>
+      </div>
+
+      <!-- 2023 -->
+
+      <div class="pub-item sr">
+        <div class="pub-num">6</div>
+        <div class="pub-ref"><strong>Bawono, A. A.</strong>, NguyenDinh, N., Thangaraj, J., Ertsey-Bayer, M., Simon, C., Lechner, B., &amp; Yang, E.-H. (2023). Study of tire–pavement noise acoustic performance in resilient road pavement made of strain-hardening cementitious composites. <em>Acoustics, 5</em>(1), 57–71.</div>
+      </div>
+
+      <div class="pub-item sr">
+        <div class="pub-num">7</div>
+        <div class="pub-ref">Ashraf, A., Sophian, A., Shafie, A. A., Gunawan, T. S., Ismail, N. N., &amp; <strong>Bawono, A. A.</strong> (2023). Efficient pavement crack detection and classification using custom YOLOv7 model. <em>Indonesian Journal of Electrical Engineering and Informatics (IJEEI), 11</em>(1).</div>
+      </div>
+
+      <div class="pub-item sr">
+        <div class="pub-num">8</div>
+        <div class="pub-ref">Rahadian, H., &amp; <strong>Bawono, A. A.</strong> (2023). Enabling clean and smart mobility in Indonesian road infrastructure to achieve sustainable transport. <em>Prosiding KRTJ HPJI, 16</em>(1), 1–33.</div>
+      </div>
+
+      <!-- 2022 -->
+
+      <div class="pub-item sr">
+        <div class="pub-num">9</div>
+        <div class="pub-ref"><strong>Bawono, A. A.</strong> (2022). <em>Engineered cementitious composites for electrified roadway in megacities: A comprehensive study on functional performance.</em> Springer.</div>
+      </div>
+
+      <div class="pub-item sr">
+        <div class="pub-num">10</div>
+        <div class="pub-ref"><strong>Bawono, A. A.</strong> (2022). Electro-mobility solution towards the ultimate public transport system with a case study of Singapore. In <em>Engineered Cementitious Composites for Electrified Roadway in Megacities</em>. Springer.</div>
+      </div>
+
+      <div class="pub-item sr">
+        <div class="pub-num">11</div>
+        <div class="pub-ref"><strong>Bawono, A. A.</strong> (2022). State of the art: Engineered cementitious composites precast ultra-thin whitetopping (ECC-PUTW). In <em>Engineered Cementitious Composites for Electrified Roadway in Megacities</em>. Springer.</div>
+      </div>
+
+      <div class="pub-item sr">
+        <div class="pub-num">12</div>
+        <div class="pub-ref"><strong>Bawono, A. A.</strong> (2022). State of the art: Functional performance of pavement. In <em>Engineered Cementitious Composites for Electrified Roadway in Megacities</em>. Springer.</div>
+      </div>
+
+      <div class="pub-item sr">
+        <div class="pub-num">13</div>
+        <div class="pub-ref">NguyenDinh, N., Aguilar, O. A. C. A., <strong>Bawono, A. A.</strong>, &amp; Lechner, B. (2022). Connection assembly, levelling or lifting system, and method of levelling a slab. <em>US Patent App. 17/432,770.</em></div>
+      </div>
+
+      <div class="pub-item sr">
+        <div class="pub-num">14</div>
+        <div class="pub-ref">Ashraf, A., Sophian, A., Shafie, A. A., Gunawan, T. S., Ismail, N. N., &amp; <strong>Bawono, A. A.</strong> (2022). Detection of road cracks using convolutional neural networks and threshold segmentation. <em>Journal of Integrated and Advanced Engineering (JIAE), 2</em>(2), 123–134.</div>
+      </div>
+
+      <div class="pub-item sr">
+        <div class="pub-num">15</div>
+        <div class="pub-ref">Azmi, N. H., Sophian, A., &amp; <strong>Bawono, A. A.</strong> (2022). Deep-learning-based detection of missing road lane markings using YOLOv5 algorithm. <em>IOP Conference Series: Materials Science and Engineering, 1244</em>(1), 012021.</div>
+      </div>
+
+      <!-- 2021 -->
+
+      <div class="pub-item sr">
+        <div class="pub-num">16</div>
+        <div class="pub-ref"><strong>Bawono, A. A.</strong>, Lechner, B., Freudenstein, S., &amp; Yang, E.-H. (2021). Multi criteria analysis on surface treatment method for concrete pavement. <em>Proceedings of the 12th International Conference on Concrete Pavements (ICCP).</em></div>
+      </div>
+
+      <!-- 2020 -->
+
+      <div class="pub-item sr">
+        <div class="pub-num">17</div>
+        <div class="pub-ref"><strong>Bawono, A. A.</strong>, Tan, Z. H., Hamdany, A. H., NguyenDinh, N., Qian, S., Lechner, B., &amp; Yang, E.-H. (2020). Bright and slip-proof engineered cementitious composites with visible light activated photo-catalysis property for pavement in tunnels. <em>Cement and Concrete Composites, 114</em>, 103788.</div>
+      </div>
+
+      <div class="pub-item sr">
+        <div class="pub-num">18</div>
+        <div class="pub-ref"><strong>Bawono, A. A.</strong>, von Schumann, C. M., &amp; Lechner, B. (2020). Study of building information modelling implementation on railway infrastructure. <em>International Conference on Computing in Civil and Building Engineering</em>, 372–382.</div>
+      </div>
+
+      <div class="pub-item sr">
+        <div class="pub-num">19</div>
+        <div class="pub-ref"><strong>Bawono, A. A.</strong> (2020). <em>The functional performance of engineered cementitious composites material for electrified roadway application in Singapore: Skid resistance, surface water drainage, noise.</em> Technische Universität München.</div>
+      </div>
+
+      <!-- 2019 -->
+
+      <div class="pub-item sr">
+        <div class="pub-num">20</div>
+        <div class="pub-ref"><strong>Bawono, A. A.</strong>, Lechner, B., &amp; Yang, E.-H. (2019). Skid resistance and surface water drainage performance of engineered cementitious composites for pavement applications. <em>Cement and Concrete Composites, 104</em>, 103387.</div>
+      </div>
+
+      <div class="pub-item sr">
+        <div class="pub-num">21</div>
+        <div class="pub-ref"><strong>Bawono, A. A.</strong>, Lechner, B., Caliskan, E., &amp; Yang, E.-H. (2019). Multi criteria analysis for the functional performance of surface pavement. In <em>Advances in Engineering Materials, Structures and Systems: Innovations, Mechanics and Applications</em>. CRC Press, Cape Town.</div>
+      </div>
+
+      <div class="pub-item sr">
+        <div class="pub-num">22</div>
+        <div class="pub-ref"><strong>Bawono, A. A.</strong>, NguyenDinh, N., Lechner, B., &amp; Yang, E.-H. (2019). Study of finite element model on skid resistance for pavement made of engineered cementitious composite. In <em>Advances in Engineering Materials, Structures and Systems: Innovations, Mechanics and Applications.</em></div>
+      </div>
+
+      <!-- 2018 -->
+
+      <div class="pub-item sr">
+        <div class="pub-num">23</div>
+        <div class="pub-ref"><strong>Bawono, A. A.</strong>, Lechner, B., &amp; Alhaz, F. I. (2018). Asphalt pavement analysis with 3-D FEM model using actual tire pavement contact stresses measured with pressure mapping system device. <em>Transportation Research Board 97th Annual Meeting.</em></div>
+      </div>
+
+      <div class="pub-item sr">
+        <div class="pub-num">24</div>
+        <div class="pub-ref">NguyenDinh, N., <strong>Bawono, A. A.</strong>, Yang, E.-H., &amp; Lechner, B. (2018). Using corundum to improve skid resistance of pavement made of engineered cementitious composite. <em>Transportation Research Board 97th Annual Meeting.</em></div>
+      </div>
+
+      <!-- 2017 -->
+
+      <div class="pub-item sr">
+        <div class="pub-num">25</div>
+        <div class="pub-ref"><strong>Bawono, A. A.</strong>, Dinh, N. N., Yang, E.-H., &amp; Lechner, B. (2017). Evaluation of highway pavement skid resistance performance made of engineered cementitious composite (ECC). In <em>Bearing Capacity of Roads, Railways and Airfields</em>, 921–928.</div>
+      </div>
+
+      <!-- 2009 -->
+
+      <div class="pub-item sr">
+        <div class="pub-num">26</div>
+        <div class="pub-ref"><strong>Bawono, A. A.</strong>, Aquita, L., &amp; Tamin, O. Z. (2009). Analisis dampak lalu lintas akibat pembangunan Gedung Graha Energi (Medco Tower). <em>Simposium XII FSTPT.</em></div>
+      </div>
+
+    </div>
+
+    <p style="font-size:.78rem;color:var(--lgray);margin-top:28px;font-style:italic;">
+      Citations: 182 &nbsp;·&nbsp; h-index: 7 &nbsp;·&nbsp; i10-index: 6. Full list:
+      <a href="https://scholar.google.com/citations?user=b7BOwQ8AAAAJ&hl=en" target="_blank" style="color:var(--azure);text-decoration:none;border-bottom:1px solid var(--border);">Google Scholar</a>.
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="fl">PAGI Initiative &#183; Dr.-Ing. Ali Bawono, PMP</div>
+  <div class="fr">Performance &amp; Agile Green Infrastructure &#183; v1.6</div>
+</footer>
+
+<script>
+(function(){
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var g=e.target.parentElement.querySelectorAll('.sr:not(.in)');
+        var d=0;
+        g.forEach(function(s){
+          if(s.getBoundingClientRect().top<window.innerHeight+60){
+            setTimeout(function(){s.classList.add('in');},d);
+            d+=65;
+          }
+        });
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  },{threshold:0.06,rootMargin:'0px 0px -24px 0px'});
+  document.querySelectorAll('.sr').forEach(function(el){io.observe(el);});
+})();
+</script>
+</body>
+</html>
